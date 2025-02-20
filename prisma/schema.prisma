@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Subscription {
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  subId                 Int       @unique
+  customerId            String
+  botType               String
+  botAmount             Int
+  months                Int
+  subscriptionDuration  BigInt?
+  expired               Boolean  @default(false)
+  expirationTime        BigInt?
+  aboutToExpireNotificationSent Boolean @default(false)
+  oneMinuteBeforeExpireNotificationSent Boolean @default(false)
+  expiredNotificationSent Boolean @default(false)
+  tokens                Token[]
+}
+
+model Token {
+  id                    String          @id @default(auto()) @map("_id") @db.ObjectId
+  token                 String          @unique  /// @encrypted
+  tokenHash             String          @unique  /// @encryption:hash(token)
+  tokenId               Int             @unique  
+  botType               String
+  botId                 String
+  botName               String
+  subscription          Subscription?   @relation(fields: [subscriptionId], references: [id])
+  subscriptionId        String?         @unique @db.ObjectId
+  process               BotProcess?     @relation(fields: [processId], references: [id])
+  processId             String?         @unique @db.ObjectId
+  setting               Setting?
+}
+
+model BotProcess {
+  id                    String          @id @default(auto()) @map("_id") @db.ObjectId
+  processId             String             @unique
+  running               Boolean         @default(false)
+  token                 Token?
+}
+
+model Setting {
+  id                    String          @id @default(auto()) @map("_id") @db.ObjectId      
+  guildId               String
+  guildName             String?
+  prefix                String          @default("!")
+  embedColor            String?         @default("#3498db")
+  embed                 Boolean         @default(true)
+  buttons               Boolean         @default(true)
+  commandsChannelId     String?
+  voiceChannelId        String?
+  voiceChannelChat      Boolean         @default(false)
+  activity              String?         @default("Bots!")
+  activityType          String?         @default("Playing")
+  status                String          @default("idle")
+  admins                String[]        @default([])
+  tokenId               String?         @unique @db.ObjectId
+  token                 Token?          @relation(fields: [tokenId], references: [id]) 
+  inGuild               Boolean         @default(false)
+  restart               Boolean         @default(false)
+  canvas                Boolean         @default(false)
+}
+
+model User {
+  id                String      @id @default(uuid()) @db.String @map("_id")
+  guildId           String
+  balance           Int         @default(0)
+  cooldowns         Json?       // JSON object to store cooldowns for multiple commands
+  marriedTo         String?     // To store the ID of the person they are married to
+  marriages1        Marriage[]  @relation("MarriageUser1")
+  marriages2        Marriage[]  @relation("MarriageUser2")
+  loanAmount        Int?        // Tracks the loan amount if taken
+  loanTimestamp     BigInt?     // Timestamp of when the loan was taken
+  depositAmount     Int?        // Amount deposited
+  depositTimestamp  BigInt?     // Timestamp of when the deposit was made
+  profitPercentage  Int?        // Profit percentage
+  depositTimePeriod String?     // Time period for deposit (e.g., "1h", "2h", "3h")
+  
+  // Protection variables
+  protectionExpiry  BigInt?     // Timestamp of when the protection expires
+  protectionTime    Int?        // Duration of protection in minutes
+
+  // Loot variables
+  lootedAmount      Int?        // Total amount looted from this user
+  lootedBy          String?     // ID of the last person who looted from this user
+  totalLootedAmount Int?        // Total amount this user has looted from others
+  
+  @@unique([id, guildId])
+  @@map("BankUsers") // Collection name for users
+}
+
+model Marriage {
+  id          String   @id @default(uuid()) @map("_id")
+  user1Id     String
+  user2Id     String
+  amount      Int
+  guildId     String
+
+  user1       User     @relation("MarriageUser1", fields: [user1Id], references: [id])
+  user2       User     @relation("MarriageUser2", fields: [user2Id], references: [id])
+  @@map("BankMarriages") // Collection name for marriage
+}

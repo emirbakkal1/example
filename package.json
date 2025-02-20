@@ -1,0 +1,48 @@
+{
+  "name": "subscription-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --fix",
+    "format": "prettier --write .",
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "music-dev": "nodemon bot/music/index.js",
+    "lavalink:up": "cd bot/music && docker-compose up --build",
+    "lavalink:down": "cd bot/music && docker-compose down",
+    "generate": "prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.1.1",
+    "prettier": "^3.2.5",
+    "prisma": "^5.18.0"
+  },
+  "dependencies": {
+    "@discordjs/formatters": "^0.4.0",
+    "@discordjs/voice": "^0.17.0",
+    "@prisma/client": "^5.18.0",
+    "ascii-table": "^0.0.9",
+    "axios": "^1.7.5",
+    "canvas": "^2.11.2",
+    "child_process": "^1.0.2",
+    "discord-gamecord": "^4.4.2",
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5",
+    "fast-average-color-node": "^3.0.0",
+    "glob": "^10.3.12",
+    "moonlink.js": "^3.6.64",
+    "node-cron": "^3.0.3",
+    "nodemon": "^3.1.0",
+    "pino": "^9.0.0",
+    "pm2": "^5.4.2",
+    "pretty-ms": "7.0.0",
+    "prisma-field-encryption": "^1.5.2",
+    "sharp": "^0.33.5",
+    "undici": "^6.19.8"
+  }
+}

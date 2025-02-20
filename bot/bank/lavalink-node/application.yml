@@ -1,0 +1,78 @@
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true # Whether just video IDs can match. If false, only complete URLs will be loaded.
+    allowDirectPlaylistIds: true # Whether just playlist IDs can match. If false, only complete URLs will be loaded.
+    clients:
+      - MUSIC
+      - ANDROID_TESTSUITE
+      - WEB
+      - TVHTML5EMBEDDED
+  lavasrc:
+    providers: # Custom providers for track loading. This is the default
+      - 'ytsearch:"%ISRC%"' # Will be ignored if track does not have an ISRC. See https://en.wikipedia.org/wiki/International_Standard_Recording_Code
+      - "ytsearch:%QUERY%" # Will be used if track has no ISRC or no track could be found for the ISRC
+    sources:
+      spotify: true # Enable Spotify source
+      applemusic: false # Enable Apple Music source
+      deezer: false # Enable Deezer source
+      yandexmusic: false # Enable Yandex Music source
+      flowerytts: false # Enable Flowery TTS source
+      youtube: true
+    spotify:
+      clientId: "3bb14da5b2f640e18b2ecb687ea1778a"
+      clientSecret: "b8efbfc277ab428e9aa56368e672315b"
+      # spDc: "your sp dc cookie" # the sp dc cookie used for accessing the spotify lyrics api
+      countryCode: "US" # the country code you want to use for filtering the artists top tracks. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+      playlistLoadLimit: 6 # The number of pages at 100 tracks each
+      albumLoadLimit: 6
+lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
+      repository: "https://maven.lavalink.dev/releases" # this is optional for lavalink v4.0.0-beta.5 or greater
+      snapshot: false
+    - dependency: "com.github.topi314.sponsorblock:sponsorblock-plugin:3.0.1"
+      repository: "https://maven.lavalink.dev/releases"
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
+      repository: "https://maven.lavalink.dev/releases" # this is optional for lavalink v4.0.0-beta.5 or greater
+      snapshot: false
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.6.0"
+      snapshot: false # Set to true if you want to use a snapshot version.
+  server:
+    password: "qwert75421"
+    sources:
+      youtube: false
+      bandcamp: false
+      soundcloud: true
+      twitch: false
+      vimeo: false
+      mixer: false
+      http: false
+      local: false
+    bufferDurationMs: 400
+    frameBufferDurationMs: 1000
+    gc-warnings: true
+    opusEncodingQuality: 10
+    playerUpdateInterval: 1
+    resamplingQuality: HIGH
+    soundcloudSearchEnabled: true
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
+    youtubePlaylistLoadLimit: 100
+    youtubeSearchEnabled: true
+
+metrics:
+  prometheus:
+    enabled: false
+    endpoint: /metrics
+
+logging:
+  file:
+    max-history: 30
+    max-size: 1GB
+  path: ./logs/
+
+  level:
+    root: INFO
+    lavalink: INFO

@@ -1,0 +1,31 @@
+services:
+  lavalink:
+    # pin the image version to Lavalink v4
+    image: ghcr.io/lavalink-devs/lavalink:4.0.7
+    healthcheck:
+      test: "echo lavalink"
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    container_name: music-lavalink
+    restart: unless-stopped
+    environment:
+      # set Java options here
+      - _JAVA_OPTIONS=-Xmx1000m
+      # set lavalink server port
+      - SERVER_PORT=6745
+      # set password for lavalink
+      # - LAVALINK_SERVER_PASSWORD=qwert75421
+    volumes:
+      # mount application.yml from the same directory or use environment variables
+      - ./lavalink-node/application.yml:/opt/Lavalink/application.yml
+      # persist plugins between restarts, make sure to set the correct permissions (user: 322, group: 322)
+      - ./lavalink-node/plugins/:/opt/Lavalink/plugins/
+    # networks:
+    #   - lavalink
+    expose:
+      # lavalink exposes port 2333 to connect to for other containers (this is for documentation purposes only)
+      - 6745
+    ports:
+      # you only need this if you want to make your lavalink accessible from outside of containers
+      - "6745:6745"

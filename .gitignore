@@ -1,0 +1,4 @@
+node_modules/
+.env
+*old__*
+.vscode/settings.json

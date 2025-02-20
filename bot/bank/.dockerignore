@@ -1,0 +1,12 @@
+# .dockerignore
+# .gitignore
+# .gitlab-ci.yml
+# .travis.yml
+# .vscode/
+# Dockerfile
+# README.md
+
+.env
+.git/
+
+.node_modules/

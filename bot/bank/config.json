@@ -1,0 +1,24 @@
+{
+  "MainColor": "#3498db",
+  "ErrorColor": "#c0392b",
+  
+  "commandCooldowns": {
+      "fruit": 180000,
+      "color": 180000,
+      "trade": 180000,
+      "luck": 300000,
+      "rps": 180000,
+      "risk": 300000,
+      "bet": 300000,
+      "investment": 180000,
+      "salary": 240000,
+      "charity": 240000,
+      "button": 240000,
+      "dice": 240000,
+      "loot": 300000,
+      "protection": 180000,
+      "game": 180000
+    }
+}
+
+
